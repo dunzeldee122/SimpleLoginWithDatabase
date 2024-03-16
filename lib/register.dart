@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _genderController = TextEditingController();
   late DateTime _selectedDate = DateTime.now();
 
-  bool _passwordVisible = false; // Added variable for password visibility
+  bool _passwordVisible = false; //variable for password visibility
 
   // Map to track field validation errors
   final Map<String, String> _errors = {};
