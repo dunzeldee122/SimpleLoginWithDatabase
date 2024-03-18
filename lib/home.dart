@@ -54,16 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Name: ${widget.user.name}',
                   style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
+                    fontSize: 14.0,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 Text(
-                  'Date of Birth: ${widget.user.dob}', // Display date of birth
+                  'Date of Birth: ${widget.user.dob}',
                   style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
+                    fontSize: 14.0,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Gender: ${widget.user.gender}',
                   style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
+                    fontSize: 14.0,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Email: ${widget.user.email}',
                   style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
+                    fontSize: 14.0,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Phone: ${widget.user.phoneNumber}',
                   style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
+                    fontSize: 14.0,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop();
                   },
                   child: const Text(
                     'Cancel',
@@ -134,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                    // Navigate back to the login screen
+                    Navigator.of(context).pop();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

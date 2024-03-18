@@ -1,9 +1,9 @@
-//main
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'database.dart';
 import 'login.dart';
 import 'register.dart';
-import 'home.dart'; // Import HomeScreen
+import 'home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +28,10 @@ class _MyAppState extends State<MyApp> {
 
   void initializeDatabase() async {
     await userDatabase.initDatabase();
+    bool isLoggedIn = await SessionManager.isLoggedIn();
+    if (isLoggedIn) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
   }
 
   @override
@@ -57,7 +61,7 @@ class _HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<User>(
-      future: databaseHelper.getUserById(1), // Assuming user with ID 1 is logged in
+      future: databaseHelper.getUserById(1),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -70,5 +74,19 @@ class _HomeScreen extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+class SessionManager {
+  static const String isLoggedInKey = 'isLoggedIn';
+
+  static Future<void> setLoggedIn(bool isLoggedIn) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(isLoggedInKey, isLoggedIn);
+  }
+
+  static Future<bool> isLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(isLoggedInKey) ?? false;
   }
 }

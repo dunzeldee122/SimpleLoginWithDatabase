@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Function to validate if a text field is empty
   bool _validateField(String field, TextEditingController? controller, {String? value}) {
     if (_errors.containsKey(field)) {
-      return false; // If an error is already set, return false
+      return false;
     }
     return controller != null ? controller.text.isNotEmpty : value != null && value.isNotEmpty;
   }
@@ -189,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         !_validateField('email', _emailController) ||
                         !_validateField('phoneNumber', _phoneNumberController) ||
                         !_validateField('dob', null, value: _selectedDate.toString()) ||
-                        !_validateField('gender', _genderController) || // Validate gender field
+                        !_validateField('gender', _genderController) ||
                         !_validateField('address', _addressController)) {
                       setState(() {
                         // Set errors for empty fields
@@ -227,8 +227,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     final String email = _emailController.text;
                     final String phoneNumber = _phoneNumberController.text;
                     final String dob =
-                        '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}'; // Placeholder for date of birth
-                    final String gender = _genderController.text; // Retrieve gender from text field
+                        '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}';
+                    final String gender = _genderController.text;
                     final String address = _addressController.text;
 
                     User newUser = User(

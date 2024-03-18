@@ -67,15 +67,15 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: double.infinity,
               child: Container(
-                color: Colors.white, // Set the background color of the text box
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
                     controller: _usernameController,
-                    style: const TextStyle(color: Colors.black), // Set text color to black
+                    style: const TextStyle(color: Colors.black),
                     decoration: const InputDecoration(
                       hintText: 'Username',
-                      hintStyle: TextStyle(color: Colors.grey), // Set hint text color
+                      hintStyle: TextStyle(color: Colors.grey),
                       border: InputBorder.none,
                     ),
                   ),
@@ -86,15 +86,15 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: double.infinity,
               child: Container(
-                color: Colors.white, // Set the background color of the text box
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
                     controller: _passwordController,
-                    style: const TextStyle(color: Colors.black), // Set text color to black
+                    style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      hintStyle: const TextStyle(color: Colors.grey), // Set hint text color
+                      hintStyle: const TextStyle(color: Colors.grey),
                       border: InputBorder.none,
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the RegisterScreen when the "Register" button is pressed
+                // Register button
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RegisterScreen(databaseHelper: widget.databaseHelper)),
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: const Text(
                 'Register',
-                style: TextStyle(color: Colors.white), // White text color
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
