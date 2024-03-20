@@ -1,4 +1,3 @@
-//register
 import 'package:flutter/material.dart';
 import 'database.dart';
 
@@ -18,9 +17,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
-  late DateTime _selectedDate = DateTime.now();
+  DateTime? _selectedDate; // Nullable DateTime for the selected date
 
-  bool _passwordVisible = false; //variable for password visibility
+  bool _passwordVisible = false; // Variable for password visibility
 
   // Map to track field validation errors
   final Map<String, String> _errors = {};
@@ -30,15 +29,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_errors.containsKey(field)) {
       return false;
     }
+    if (field == 'dob') {
+      return _selectedDate != null;
+    }
     return controller != null ? controller.text.isNotEmpty : value != null && value.isNotEmpty;
   }
+
+  // Function to validate date of birth
+  String? _validateDateOfBirth(DateTime? selectedDate) {
+    if (selectedDate == null) return null; // No validation if date is not selected yet
+
+    final currentDate = DateTime.now();
+    final tenYearsAgo = currentDate.subtract(const Duration(days: 365 * 10));
+
+    if (selectedDate.isAfter(tenYearsAgo)) {
+      return 'You must be at least 10 years old to register';
+    }
+
+    return null;
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text('Register'),
+        title: const Text('Register', style: TextStyle(color: Colors.white)),
       ),
       backgroundColor: Colors.green,
       body: SingleChildScrollView(
@@ -120,34 +137,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16.0),
               InkWell(
                 onTap: () => _selectDate(context),
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Date of Birth: MM/DD/YYYY',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    errorText: _errors.containsKey('dob') ? 'Field cannot be empty' : null,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          _selectedDate != null
-                              ? '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}'
-                              : '',
-                          style: const TextStyle(color: Colors.black, fontSize: 14.0),
-                        ),
-                      ),
-                      const Icon(Icons.calendar_today),
-                    ],
+                child: AbsorbPointer(
+                  absorbing: true,
+                  child: TextFormField(
+                    enabled: false,
+                    controller: TextEditingController(
+                      text: _selectedDate != null
+                          ? '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}'
+                          : null, // Set initial value to null
+                    ),
+                    style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Date of Birth',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      errorText: _validateDateOfBirth(_selectedDate),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8.0),
-              const Text(
-                'Date of Birth',
-                style: TextStyle(color: Colors.black, fontSize: 14.0),
               ),
               const SizedBox(height: 16.0),
               TextFormField(
@@ -176,113 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 20.0),
               Center(
                 child: ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      // Clear previous errors
-                      _errors.clear();
-                    });
-
-                    // Validate fields
-                    if (!_validateField('username', _usernameController) ||
-                        !_validateField('password', _passwordController) ||
-                        !_validateField('name', _nameController) ||
-                        !_validateField('email', _emailController) ||
-                        !_validateField('phoneNumber', _phoneNumberController) ||
-                        !_validateField('dob', null, value: _selectedDate.toString()) ||
-                        !_validateField('gender', _genderController) ||
-                        !_validateField('address', _addressController)) {
-                      setState(() {
-                        // Set errors for empty fields
-                        if (!_validateField('username', _usernameController)) {
-                          _errors['username'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('password', _passwordController)) {
-                          _errors['password'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('name', _nameController)) {
-                          _errors['name'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('email', _emailController)) {
-                          _errors['email'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('phoneNumber', _phoneNumberController)) {
-                          _errors['phoneNumber'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('dob', null, value: _selectedDate.toString())) {
-                          _errors['dob'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('gender', _genderController)) {
-                          _errors['gender'] = 'Field cannot be empty';
-                        }
-                        if (!_validateField('address', _addressController)) {
-                          _errors['address'] = 'Field cannot be empty';
-                        }
-                      });
-                      return; // Return if any field is empty
-                    }
-
-                    final String username = _usernameController.text;
-                    final String password = _passwordController.text;
-                    final String name = _nameController.text;
-                    final String email = _emailController.text;
-                    final String phoneNumber = _phoneNumberController.text;
-                    final String dob =
-                        '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year}';
-                    final String gender = _genderController.text;
-                    final String address = _addressController.text;
-
-                    User newUser = User(
-                      username: username,
-                      password: password,
-                      name: name,
-                      email: email,
-                      phoneNumber: phoneNumber,
-                      dob: dob,
-                      gender: gender,
-                      address: address,
-                    );
-
-                    bool registered = await widget.databaseHelper.registerUser(newUser);
-
-                    if (registered) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Registration Complete'),
-                            content: const Text('You have successfully registered.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Registration Failed'),
-                            content: const Text('User already exists.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  },
+                  onPressed: _registerUser,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
                   ),
@@ -302,13 +204,164 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
+      initialDate: _selectedDate ?? DateTime.now(), // Use initialDate as _selectedDate if not null
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
     if (picked != null && picked != _selectedDate)
-      setState(() {
+      setState(()
+      {
         _selectedDate = picked;
       });
+  }
+
+  Future<void> _registerUser() async {
+    setState(() {
+      // Clear previous errors
+      _errors.clear();
+    });
+
+    // Validate fields
+    if (!_validateField('username', _usernameController) ||
+        !_validateField('password', _passwordController) ||
+        !_validateField('name', _nameController) ||
+        !_validateField('email', _emailController) ||
+        !_validateField('phoneNumber', _phoneNumberController) ||
+        !_validateField('gender', _genderController) ||
+        !_validateField('address', _addressController)) {
+      setState(() {
+        // Set errors for empty fields
+        if (!_validateField('username', _usernameController)) {
+          _errors['username'] = 'Field cannot be empty';
+        }
+        if (!_validateField('password', _passwordController)) {
+          _errors['password'] = 'Field cannot be empty';
+        }
+        if (!_validateField('name', _nameController)) {
+          _errors['name'] = 'Field cannot be empty';
+        }
+        if (!_validateField('email', _emailController)) {
+          _errors['email'] = 'Field cannot be empty';
+        }
+        if (!_validateField('phoneNumber', _phoneNumberController)) {
+          _errors['phoneNumber'] = 'Field cannot be empty';
+        }
+        if (!_validateField('gender', _genderController)) {
+          _errors['gender'] = 'Field cannot be empty';
+        }
+        if (!_validateField('address', _addressController)) {
+          _errors['address'] = 'Field cannot be empty';
+        }
+      });
+      return; // Return if any field is empty
+    }
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+    final String name = _nameController.text;
+    final String email = _emailController.text;
+    final String phoneNumber = _phoneNumberController.text;
+    final String dob =
+        '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}';
+    final String gender = _genderController.text;
+    final String address = _addressController.text;
+
+    // Check username availability
+    final bool isUsernameAvailable = await widget.databaseHelper.isUsernameAvailable(username);
+    if (!isUsernameAvailable) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Username Not Available'),
+            content: Text('The username $username is already taken.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // Check email availability
+    final bool isEmailAvailable = await widget.databaseHelper.isEmailAvailable(email);
+    if (!isEmailAvailable) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Email Not Available'),
+            content: Text('The email $email is already registered.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // Proceed with user registration
+    User newUser = User(
+      username: username,
+      password: password,
+      name: name,
+      email: email,
+      phoneNumber: phoneNumber,
+      dob: dob,
+      gender: gender,
+      address: address,
+    );
+
+    bool registered = await widget.databaseHelper.registerUser(newUser);
+
+    if (registered) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Registration Complete'),
+            content: const Text('You have successfully registered.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Registration Failed'),
+            content: const Text('User already exists.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

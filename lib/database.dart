@@ -74,6 +74,28 @@ class UserDatabase {
       return false;
     }
   }
+
+  Future<bool> isUsernameAvailable(String username) async {
+    try {
+      await getUserByUsername(username);
+      return false; // Username exists
+    } catch (_) {
+      return true; // Username is available
+    }
+  }
+
+  Future<bool> isEmailAvailable(String email) async {
+    try {
+      final List<Map<String, dynamic>> result = await _db.query(
+        'users',
+        where: 'email = ?',
+        whereArgs: [email],
+      );
+      return result.isEmpty; // Email is available if result is empty
+    } catch (_) {
+      return true; // Email is available
+    }
+  }
 }
 
 class User {

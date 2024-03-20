@@ -56,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text('Login'),
+        title: const Text('Login',
+            style: TextStyle(color: Colors.white)),
       ),
       backgroundColor: Colors.green, // Set the background color of the entire app
       body: Padding(
