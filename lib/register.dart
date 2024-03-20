@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: TextEditingController(
                       text: _selectedDate != null
                           ? '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}'
-                          : null, // Set initial value to null
+                          : null,
                     ),
                     style: const TextStyle(color: Colors.black, fontSize: 14.0),
                     decoration: InputDecoration(
@@ -204,7 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(), // Use initialDate as _selectedDate if not null
+      initialDate: _selectedDate ?? DateTime.now(), // date selector
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
@@ -217,7 +217,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _registerUser() async {
     setState(() {
-      // Clear previous errors
       _errors.clear();
     });
 
@@ -311,7 +310,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Proceed with user registration
+    //user register to the database
     User newUser = User(
       username: username,
       password: password,
