@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'database.dart';
-import 'home.dart'; // Import HomeScreen
+import 'home.dart';
 import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,8 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text('Login',
-            style: TextStyle(color: Colors.white)),
+        title: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 28.0)),
       ),
       backgroundColor: Colors.green, // Set the background color of the entire app
       body: Padding(
@@ -73,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
                     controller: _usernameController,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black, fontSize: 28.0),
                     decoration: const InputDecoration(
                       hintText: 'Username',
                       hintStyle: TextStyle(color: Colors.grey),
@@ -92,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
                     controller: _passwordController,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black, fontSize: 28.0),
                     decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: const TextStyle(color: Colors.grey),
@@ -114,21 +113,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),//space
             ElevatedButton(
               onPressed: _login,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
+                minimumSize: Size(double.infinity, 50),//widening
               ),
               child: const Text(
                 'Login',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 28.0),//button height
               ),
             ),
-            const SizedBox(height: 10),
+
+            const SizedBox(height: 10),//space
             ElevatedButton(
               onPressed: () {
-                // Register button
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RegisterScreen(databaseHelper: widget.databaseHelper)),
@@ -136,12 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
+                minimumSize: Size(double.infinity, 50), //widening
               ),
               child: const Text(
                 'Register',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 28.0),//button height
               ),
             ),
+
           ],
         ),
       ),

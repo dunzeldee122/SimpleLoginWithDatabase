@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   DateTime? _selectedDate;
 
   bool _passwordVisible = false; // Variable for password visibility
-  bool _registerPressed = false; // Track whether register button is pressed as the variable name suggest, yeah
+  bool _registerPressed = false; // Track if register button is pressed as the variable name says,so yeah
 
   // Map to track field validation errors
   final Map<String, String> _errors = {};
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text('Register', style: TextStyle(color: Colors.white)),
+        title: const Text('Register', style: TextStyle(color: Colors.white,fontSize: 28.0)),
       ),
       backgroundColor: Colors.green,
       body: SingleChildScrollView(
@@ -80,10 +80,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _usernameController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -92,10 +92,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('username') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _passwordController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -113,10 +113,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 obscureText: !_passwordVisible,
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _nameController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -125,10 +125,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('name') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _emailController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -137,10 +137,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('email') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _phoneNumberController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -149,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('phoneNumber') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               InkWell(
                 onTap: () => _selectDate(context),
                 child: AbsorbPointer(
@@ -161,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}'
                           : null,
                     ),
-                    style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                    style: const TextStyle(color: Colors.black, fontSize: 28.0),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -174,10 +174,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _addressController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -186,10 +186,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('address') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _genderController,
-                style: const TextStyle(color: Colors.black, fontSize: 14.0),
+                style: const TextStyle(color: Colors.black, fontSize: 28.0),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -198,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   errorText: _errors.containsKey('gender') ? 'Field cannot be empty' : null,
                 ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),//space
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -209,10 +209,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
+                    minimumSize: Size(double.infinity, 50),//widening
                   ),
                   child: const Text(
                     'Register',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 28.0),//height
                   ),
                 ),
               ),
@@ -255,7 +256,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           _errors['username'] = 'Field cannot be empty';
         }
         if (!_validateField('password', _passwordController)) {
-          // Password error messages are handled in _validateField method
+
         }
         if (!_validateField('name', _nameController)) {
           _errors['name'] = 'Field cannot be empty';

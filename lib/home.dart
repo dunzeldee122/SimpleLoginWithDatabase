@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.teal,
           title: const Text(
             'Home',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 28.0),
           ),
           leading: IconButton(
             icon: const Icon(Icons.logout),
@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Center(
                   child: Container(
-                    width: 200.0,
-                    height: 200.0,
+                    width: 300.0,
+                    height: 300.0,
                     child: Image.asset(
                       'assets/fumo.jpg',
                       fit: BoxFit.cover,
@@ -51,64 +51,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 50.0),
-                Text(
-                  'Name: ${widget.user.name}',
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.person_pin, widget.user.name),
                 const SizedBox(height: 16.0),
-                Text(
-                  'Date of Birth: ${widget.user.dob}',
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.cake, widget.user.dob),
                 const SizedBox(height: 16.0),
-                Text(
-                  'Gender: ${widget.user.gender}',
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.person, widget.user.gender),
                 const SizedBox(height: 16.0),
-                Text(
-                  'Email: ${widget.user.email}',
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.email, widget.user.email),
                 const SizedBox(height: 16.0),
-                Text(
-                  'Phone: ${widget.user.phoneNumber}',
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.phone, widget.user.phoneNumber),
                 const SizedBox(height: 16.0),
-                Text(
-                  'Address: ${widget.user.address}',
-                  style: const TextStyle(
-                    fontSize: 14.0, // Font size 14
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                buildRow(Icons.location_on, widget.user.address),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildRow(IconData icon, String value) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.white, size: 28.0),
+        const SizedBox(width: 8.0),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 28.0,
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
